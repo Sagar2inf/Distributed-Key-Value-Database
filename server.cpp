@@ -11,6 +11,7 @@
 #include <netdb.h>
 #include "./routers/router.hpp"
 #include "./transport/transport.hpp"
+#include "./memtable/memtable.hpp"
 
 Router router;
 Transport transport;
@@ -41,6 +42,8 @@ int main(){
         std::cout<<"Started to listening on local port 9000" << std::endl;
     }
     
+    router.recover();
+
     std::vector<int> clients;
     while(true){
         fd_set fr, fw, fe;

@@ -14,4 +14,8 @@ public:
         this->memtable = new Memtable("walfile", "../wal");
     }
     vector<uint8_t> pass_data(const vector<uint8_t>& request);
+    void recover(){
+        cout << "Recovering data" << endl;
+        memtable->recover_memtable();
+    }
 };

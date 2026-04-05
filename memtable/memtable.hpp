@@ -1,5 +1,7 @@
+#pragma once
 #include "../disk/wal.hpp"
 #include "../memory/skiplist.hpp"
+#include "arpa/inet.h"
 
 class Memtable{
 private:
@@ -14,4 +16,5 @@ public:
     bool set_wal(const vector<uint8_t>& data);
     bool remove(string key);
     vector<uint8_t> get(string key);
+    void recover_memtable();
 };

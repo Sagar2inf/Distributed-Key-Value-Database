@@ -19,14 +19,18 @@ int main(){
 
     connect(sockfd, (sockaddr*)&serv_addr, sizeof(serv_addr));
 
-    std::string message = "set x = 12";
-    std::vector<uint8_t> buffer(message.begin(), message.end());
-    transport.write_data(sockfd, buffer);
-    std::cout<<"data sent" << std::endl;
-    buffer.clear();
-    buffer = transport.read_data(sockfd);
-    for(auto & it: buffer){
-        std::cout << it;
+    while(true){
+        std::string message;
+        std::getline(std::cin, message);
+        std::vector<uint8_t> buffer(message.begin(), message.end());
+        transport.write_data(sockfd, buffer);
+        std::cout<<"data sent" << std::endl;
+        buffer.clear();
+        buffer = transport.read_data(sockfd);
+        std::cout << "data received: " << std::endl;
+        for(auto & it: buffer){
+            std::cout << it;
+        }
+        std::cout << std::endl;    
     }
-    std::cout << std::endl;   
 }

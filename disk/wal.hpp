@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 #include <vector>
 #include <cstring>
@@ -31,5 +32,12 @@ public:
         }
     }
     void write_data(const vector<uint8_t> data);
-    void read_data();
+    vector<uint8_t> read_data(bool is_start, int data_size);
 };
+
+/*
+WAL storing structure:
+each entry will be in raw bytes:
+[total_len][command][key_len][key][value_len][value]
+here [value_len][value] will only be added if command = 1 otherwise this string will end on [key]
+*/

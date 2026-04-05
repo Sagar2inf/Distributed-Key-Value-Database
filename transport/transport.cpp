@@ -23,13 +23,6 @@ std::vector<uint8_t> Transport::read_data(int client){
 }
 
 bool Transport::write_data(int client, const vector<uint8_t>& data){
-
-    cout << client << endl;
-    for(auto & it: data){
-        cout << it << " ";
-    }
-    cout << endl;
-
     uint32_t len = htonl(data.size());
     int sent = 0;
     while(sent < sizeof(uint32_t)){
@@ -39,19 +32,14 @@ bool Transport::write_data(int client, const vector<uint8_t>& data){
         }
         sent += x;
     }
-    cout << "debug" << endl;
     size_t sz = 0;
     while(sz < data.size()){
-        cout << "debug0.4" << endl;
         ssize_t x = write(client, data.data() + sz, data.size() - sz);
-        cout << "Debug0.5" << endl;
-        cout << x << endl;
         if(x <= 0){
             return false;
         }
         sz += x;
     }
-    cout << "debug2" << endl;
     return true;
 }
 

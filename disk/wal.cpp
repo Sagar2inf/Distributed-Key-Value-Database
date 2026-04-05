@@ -14,22 +14,23 @@ void WAL::write_data(const vector<uint8_t> data){
     this->size += len;
 }
 
-void WAL::read_data(){
-    vector<uint8_t> data;
-    lseek(fr, 0, SEEK_SET);
-    uint8_t buffer[1024];
+vector<uint8_t> WAL::read_data(bool is_start, int data_size){
+    if(is_start) lseek(fr, 0, SEEK_SET);
+    vector<uint8_t> buffer(data_size);
     size_t len = 0;
-    while(len < 1024){
-        ssize_t n = read(fr, buffer + len, 1024 - len);
+    while(len < data_size){
+        ssize_t n = read(fr, buffer.data() + len, data_size - len);
         if(n < 0){
             cerr <<"Failed to read data from WAL file" << endl;
-            return;
+            return {};
         }
         if(n == 0){
-            break;
+            buffer.resize(len);
+            return buffer;
         }
         len += n;
     }
+    return buffer;
 }
 
 
